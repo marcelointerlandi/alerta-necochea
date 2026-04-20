@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables - NUNCA subir al repo
+.env
+.env.local
+.env.production
+*/.env
+*/.env.local
+
+# Uploads
+uploads/
+*/uploads/
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

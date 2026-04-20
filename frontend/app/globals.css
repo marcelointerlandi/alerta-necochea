@@ -1,0 +1,131 @@
+/* frontend/app/globals.css */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #ffffff;
+  color: #111110;
+  font-family: 'IBM Plex Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---- LAYOUT RESPONSIVE ---- */
+
+.page-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: grid;
+  grid-template-columns: 148px 1fr 260px;
+  gap: 24px;
+}
+
+.col-lateral-izq,
+.col-lateral-der {
+  display: block;
+}
+
+.noticia-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: grid;
+  grid-template-columns: 148px 1fr 260px;
+  gap: 24px;
+}
+
+.noticia-col-izq,
+.noticia-col-der {
+  display: block;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .page-grid,
+  .noticia-grid {
+    grid-template-columns: 120px 1fr 200px;
+    gap: 16px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 768px) {
+  .page-grid,
+  .noticia-grid {
+    grid-template-columns: 1fr !important;
+    padding: 12px 12px !important;
+    gap: 0 !important;
+  }
+
+  .col-lateral-izq,
+  .col-lateral-der,
+  .noticia-col-izq,
+  .noticia-col-der {
+    display: none !important;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-main {
+    padding-right: 0 !important;
+    border-right: none !important;
+    border-bottom: 1px solid #e2e0da;
+    margin-bottom: 16px;
+    padding-bottom: 16px !important;
+  }
+
+  .hero-secondary {
+    padding-left: 0 !important;
+  }
+
+  .seccion-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: flex !important;
+  }
+
+  .logo-size {
+    font-size: 52px !important;
+  }
+}
+
+/* Asegurar que el menú móvil se oculte en desktop */
+@media (min-width: 769px) {
+  .hamburger {
+    display: none !important;
+  }
+  .nav-mobile {
+    display: none !important;
+  }
+  .nav-mobile.abierto {
+    display: none !important;
+  }
+}
