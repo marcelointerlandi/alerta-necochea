@@ -36,7 +36,7 @@ a {
   margin: 0 auto;
   padding: 24px 24px;
   display: grid;
-  grid-template-columns: 148px 1fr 260px;
+  grid-template-columns: 200px 1fr 260px;
   gap: 24px;
 }
 
@@ -50,7 +50,7 @@ a {
   margin: 0 auto;
   padding: 24px 24px;
   display: grid;
-  grid-template-columns: 148px 1fr 260px;
+  grid-template-columns: 200px 1fr 260px;
   gap: 24px;
 }
 
@@ -63,7 +63,7 @@ a {
 @media (max-width: 1200px) {
   .page-grid,
   .noticia-grid {
-    grid-template-columns: 120px 1fr 200px;
+    grid-template-columns: 160px 1fr 200px;
     gap: 16px;
     padding: 24px 16px;
   }

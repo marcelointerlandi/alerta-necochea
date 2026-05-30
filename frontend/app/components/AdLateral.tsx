@@ -82,7 +82,7 @@ function SlotAviso({ avisos }: { avisos: Aviso[] }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '16px',
+          padding: '8px',
           cursor: aviso.url_destino ? 'pointer' : 'default',
           opacity: visible ? 1 : 0,
           transition: 'opacity 0.3s ease',
