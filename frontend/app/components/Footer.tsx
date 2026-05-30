@@ -48,8 +48,8 @@ export default function Footer() {
           <div style={{ borderTop: '1px solid #3a3a38', paddingTop: '20px' }}>
             <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#7a7872', marginBottom: '8px' }}>Desarrollado por</div>
             <div style={{ fontSize: '14px', color: '#e8e6e0', fontWeight: 600, marginBottom: '4px' }}>Marcelo</div>
-            <a href="https://wa.me/542262218882" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#a8a6a0', textDecoration: 'none' }}>
-              2262 218882
+            <a href="https://wa.me/542262677470" target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#a8a6a0', textDecoration: 'none' }}>
+              2262 677470
             </a>
           </div>
         </div>
