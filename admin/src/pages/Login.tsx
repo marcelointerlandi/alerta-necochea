@@ -32,9 +32,9 @@ export default function Login() {
         
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', letterSpacing: '.3em', textTransform: 'uppercase', color: '#6b6b68', marginBottom: '4px' }}>Alerta</div>
-          <div style={{ fontFamily: "'IBM Plex Serif', Georgia, serif", fontSize: '42px', fontWeight: 700, letterSpacing: '-.03em', lineHeight: 1, textTransform: 'uppercase' }}>
-            <span style={{ color: '#e8000d' }}>ALERTA</span>
+          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', letterSpacing: '.3em', textTransform: 'uppercase', color: '#6b6b68', marginBottom: '4px' }}>Informate Necochea</div>
+          <div style={{ fontFamily: "'IBM Plex Serif', Georgia, serif", fontSize: '36px', fontWeight: 700, letterSpacing: '-.03em', lineHeight: 1, textTransform: 'uppercase' }}>
+            <span style={{ color: '#e8000d' }}>INFORMATE</span>
             <span style={{ color: '#111110' }}> NECOCHEA</span>
           </div>
           <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', letterSpacing: '.15em', textTransform: 'uppercase', color: '#9c9a94', marginTop: '6px' }}>Panel de administración</div>

@@ -74,14 +74,14 @@ router.get('/portada', async (req, res) => {
       WHERE n.publicada = TRUE
     `;
 
-    const [destacadas]      = await db.query(`${baseSelect} AND n.es_destacada = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [destacadas]      = await db.query(`${baseSelect} AND n.es_destacada = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 7`);
     const [breaking]        = await db.query(`${baseSelect} AND n.es_breaking  = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 8`);
-    const [locales]         = await db.query(`${baseSelect} AND s.slug = 'local'         ORDER BY n.fecha_publicacion DESC LIMIT 3`);
-    const [nacionales]      = await db.query(`${baseSelect} AND s.slug = 'nacional'      ORDER BY n.fecha_publicacion DESC LIMIT 3`);
+    const [locales]         = await db.query(`${baseSelect} AND s.slug = 'local'         ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [nacionales]      = await db.query(`${baseSelect} AND s.slug = 'nacional'      ORDER BY n.fecha_publicacion DESC LIMIT 4`);
     const [internacionales] = await db.query(`${baseSelect} AND s.slug = 'internacional' ORDER BY n.fecha_publicacion DESC LIMIT 4`);
-    const [deportes]        = await db.query(`${baseSelect} AND s.slug = 'deportes'      ORDER BY n.fecha_publicacion DESC LIMIT 3`);
-    const [economia]        = await db.query(`${baseSelect} AND s.slug = 'economia'      ORDER BY n.fecha_publicacion DESC LIMIT 3`);
-    const [videos]          = await db.query(`${baseSelect} AND s.slug = 'videos'        ORDER BY n.fecha_publicacion DESC LIMIT 3`);
+    const [deportes]        = await db.query(`${baseSelect} AND s.slug = 'deportes'      ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [economia]        = await db.query(`${baseSelect} AND s.slug = 'economia'      ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [videos]          = await db.query(`${baseSelect} AND s.slug = 'videos'        ORDER BY n.fecha_publicacion DESC LIMIT 4`);
     const [opinion]         = await db.query(`${baseSelect} AND n.es_opinion = TRUE      ORDER BY n.fecha_publicacion DESC LIMIT 4`);
 
     res.json({ destacadas, breaking, locales, nacionales, internacionales, deportes, economia, videos, opinion });
@@ -373,13 +373,13 @@ router.get('/portada', async (req, res) => {
       WHERE n.publicada = TRUE
     `;
 
-    const [destacadas]     = await db.query(`${baseSelect} AND n.es_destacada = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [destacadas]     = await db.query(`${baseSelect} AND n.es_destacada = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 7`);
     const [breaking]       = await db.query(`${baseSelect} AND n.es_breaking = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 8`);
-    const [locales]        = await db.query(`${baseSelect} AND s.slug = 'local' ORDER BY n.fecha_publicacion DESC LIMIT 3`);
-    const [nacionales]     = await db.query(`${baseSelect} AND s.slug = 'nacional' ORDER BY n.fecha_publicacion DESC LIMIT 3`);
+    const [locales]        = await db.query(`${baseSelect} AND s.slug = 'local' ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [nacionales]     = await db.query(`${baseSelect} AND s.slug = 'nacional' ORDER BY n.fecha_publicacion DESC LIMIT 4`);
     const [internacionales]= await db.query(`${baseSelect} AND s.slug = 'internacional' ORDER BY n.fecha_publicacion DESC LIMIT 4`);
-    const [deportes]       = await db.query(`${baseSelect} AND s.slug = 'deportes' ORDER BY n.fecha_publicacion DESC LIMIT 3`);
-    const [empleo]         = await db.query(`${baseSelect} AND s.slug = 'empleo' ORDER BY n.fecha_publicacion DESC LIMIT 3`);
+    const [deportes]       = await db.query(`${baseSelect} AND s.slug = 'deportes' ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [empleo]         = await db.query(`${baseSelect} AND s.slug = 'empleo' ORDER BY n.fecha_publicacion DESC LIMIT 4`);
     const [opinion]        = await db.query(`${baseSelect} AND n.es_opinion = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 4`);
 
     res.json({ destacadas, breaking, locales, nacionales, internacionales, deportes, empleo, opinion });

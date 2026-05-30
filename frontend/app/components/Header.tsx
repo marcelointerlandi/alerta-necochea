@@ -15,43 +15,50 @@ export default function Header() {
   const [menuAbierto, setMenuAbierto] = useState(false);
 
   return (
-    <header>
-      <style>{`
-        .nav-desktop { display: flex !important; }
-        .hamburger   { display: none !important; }
-        .nav-mobile  { display: none !important; }
-        .nav-mobile.abierto { display: flex !important; }
-        @media (max-width: 768px) {
-          .nav-desktop { display: none !important; }
-          .hamburger   { display: flex !important; }
-          .logo-size   { font-size: 48px !important; }
-        }
-      `}</style>
+    <header style={{ borderBottom: '1px solid #e2e0da' }}>
 
-      <div style={{ padding: '16px 0 0', borderBottom: '1px solid #111110' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '0 20px' }}>
+      {/* Masthead */}
+      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: '24px' }}>
 
-          <Link href="/" style={{ textDecoration: 'none', display: 'block', textAlign: 'center', marginBottom: '14px' }}>
-            <span className="logo-size" style={{ fontFamily: "'IBM Plex Serif', Georgia, serif", fontSize: 'clamp(42px, 8vw, 86px)', fontWeight: 700, letterSpacing: '-.03em', lineHeight: '.95', textTransform: 'uppercase', display: 'block' }}>
-              <span style={{ color: '#e8000d' }}>ALERTA</span>
-              <span style={{ color: '#111110' }}> NECOCHEA</span>
-            </span>
-            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#9c9a94', display: 'block', marginTop: '6px' }}>
-              Periodismo sin filtros · Argentina y el mundo
-            </span>
-          </Link>
+        {/* Logo ícono */}
+        <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
+          <img src="/logo.png" alt="Informate Necochea" style={{ height: '72px', width: 'auto', display: 'block' }} />
+        </Link>
 
-          {/* Desktop nav */}
-          <nav className="nav-desktop" style={{ background: '#111110', alignItems: 'stretch' }}>
+        {/* Divisor */}
+        <div style={{ width: '1px', height: '64px', background: '#ddd', flexShrink: 0 }} />
+
+        {/* Nombre */}
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <div style={{ fontFamily: "'IBM Plex Serif', Georgia, serif", fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-.02em', lineHeight: 1, textTransform: 'uppercase' }}>
+            <span style={{ color: '#e8000d' }}>INFORMATE</span>
+            <span style={{ color: '#111110' }}> NECOCHEA</span>
+          </div>
+          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', letterSpacing: '.18em', textTransform: 'uppercase', color: '#9c9a94', marginTop: '6px' }}>
+            Tu diario digital de Necochea
+          </div>
+        </Link>
+
+      </div>
+
+      {/* Nav bar */}
+      <div style={{ background: '#111110' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+
+          {/* Desktop */}
+          <nav className="nav-desktop" style={{ alignItems: 'stretch' }}>
             {secciones.map((s) => (
               <Link key={s.slug} href={`/seccion/${s.slug}`} style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 500, letterSpacing: '.12em', textTransform: 'uppercase', color: '#b0aea8', textDecoration: 'none', padding: '10px 20px', borderRight: '1px solid #222' }}>
                 {s.nombre}
               </Link>
             ))}
+            <a href="https://admin.informatenecochea.com" target="_blank" rel="noopener noreferrer" style={{ marginLeft: 'auto', fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 500, letterSpacing: '.12em', textTransform: 'uppercase', color: '#e8000d', textDecoration: 'none', padding: '10px 20px', borderLeft: '1px solid #2a2a2a', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              ⚙ Admin
+            </a>
           </nav>
 
-          {/* Mobile nav */}
-          <div style={{ background: '#111110', display: 'flex', alignItems: 'center', padding: '0 4px' }}>
+          {/* Mobile */}
+          <div style={{ display: 'flex', alignItems: 'center', padding: '0 4px' }}>
             <button
               className="hamburger"
               onClick={() => setMenuAbierto(!menuAbierto)}
@@ -68,10 +75,14 @@ export default function Header() {
                 {s.nombre}
               </Link>
             ))}
+            <a href="https://admin.informatenecochea.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '13px', fontWeight: 500, letterSpacing: '.12em', textTransform: 'uppercase', color: '#e8000d', textDecoration: 'none', padding: '14px 16px', borderBottom: '1px solid #222', display: 'block' }}>
+              ⚙ Admin
+            </a>
           </nav>
 
         </div>
       </div>
+
     </header>
   );
 }

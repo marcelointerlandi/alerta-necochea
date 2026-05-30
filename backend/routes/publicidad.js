@@ -2,7 +2,7 @@
 
 const express = require('express');
 const db      = require('../models/db');
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth, requireSuperAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -37,7 +37,7 @@ router.post('/:id/click', async (req, res) => {
   res.json({ ok: true });
 });
 
-router.get('/admin/todos', requireAuth, async (req, res) => {
+router.get('/admin/todos', requireAuth, requireSuperAdmin, async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM avisos ORDER BY creado_en DESC');
     res.json(rows);
@@ -46,7 +46,7 @@ router.get('/admin/todos', requireAuth, async (req, res) => {
   }
 });
 
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, requireSuperAdmin, async (req, res) => {
   try {
     const { anunciante, imagen_url, url_destino, posicion, prioridad, fecha_inicio, fecha_fin } = req.body;
     const [result] = await db.query(
@@ -60,7 +60,7 @@ router.post('/', requireAuth, async (req, res) => {
   }
 });
 
-router.put('/:id', requireAuth, async (req, res) => {
+router.put('/:id', requireAuth, requireSuperAdmin, async (req, res) => {
   try {
     const { anunciante, imagen_url, url_destino, posicion, prioridad, activo, fecha_inicio, fecha_fin } = req.body;
     await db.query(
@@ -74,7 +74,7 @@ router.put('/:id', requireAuth, async (req, res) => {
   }
 });
 
-router.delete('/:id', requireAuth, async (req, res) => {
+router.delete('/:id', requireAuth, requireSuperAdmin, async (req, res) => {
   try {
     await db.query('DELETE FROM avisos WHERE id = ?', [req.params.id]);
     res.json({ mensaje: 'Aviso eliminado' });

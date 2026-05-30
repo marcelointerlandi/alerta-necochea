@@ -13,6 +13,12 @@ function PrivateRoute({ children }: { children: ReactElement }) {
   return token ? children : <Navigate to="/login" />;
 }
 
+function SuperAdminRoute({ children }: { children: ReactElement }) {
+  const usuarioStr = localStorage.getItem('usuario');
+  const usuario = usuarioStr ? JSON.parse(usuarioStr) : null;
+  return usuario?.rol === 'superadmin' ? children : <Navigate to="/" />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -27,7 +33,9 @@ export default function App() {
           <Route path="noticias" element={<Noticias />} />
           <Route path="noticias/nueva" element={<EditarNoticia />} />
           <Route path="noticias/editar/:id" element={<EditarNoticia />} />
-          <Route path="publicidad" element={<Publicidad />} />
+          <Route path="publicidad" element={
+            <SuperAdminRoute><Publicidad /></SuperAdminRoute>
+          } />
         </Route>
       </Routes>
     </BrowserRouter>

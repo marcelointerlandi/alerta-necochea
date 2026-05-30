@@ -1,9 +1,12 @@
 // frontend/app/seccion/[slug]/page.tsx
+export const dynamic = 'force-dynamic';
+
 import axios from 'axios';
 import Header from '../../components/Header';
 import BreakingTicker from '../../components/BreakingTicker';
 import AdLateral from '../../components/AdLateral';
 import AdBanner from '../../components/AdBanner';
+import AdBannerMain from '../../components/AdBannerMainClient';
 import Footer from '../../components/Footer';
 import Link from 'next/link';
 
@@ -28,12 +31,18 @@ function tiempoRelativo(fecha: string) {
 
 async function getData(slug: string) {
   try {
-    const [notsRes, breakRes, izqRes, derRes, bannerRes] = await Promise.all([
+    const [notsRes, breakRes, izqRes, derRes, bannerRes, m1, m2, m3, m4, m5, m6] = await Promise.all([
       axios.get(`${API}/api/noticias?seccion=${slug}&limite=12`),
       axios.get(`${API}/api/noticias?breaking=true&limite=8`),
       axios.get(`${API}/api/avisos?posicion=lateral-izquierda`),
       axios.get(`${API}/api/avisos?posicion=lateral-derecha`),
       axios.get(`${API}/api/avisos?posicion=banner-horizontal`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-1`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-2`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-3`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-4`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-5`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-6`),
     ]);
     return {
       noticias:     notsRes.data.noticias || [],
@@ -41,10 +50,11 @@ async function getData(slug: string) {
       avisosIzq:    izqRes.data || [],
       avisosDer:    derRes.data || [],
       avisosBanner: bannerRes.data || [],
+      mainSlots:    [m1.data, m2.data, m3.data, m4.data, m5.data, m6.data],
     };
   } catch (err) {
     console.error(err);
-    return { noticias: [], breaking: [], avisosIzq: [], avisosDer: [], avisosBanner: [] };
+    return { noticias: [], breaking: [], avisosIzq: [], avisosDer: [], avisosBanner: [], mainSlots: [[], [], [], [], [], []] };
   }
 }
 
@@ -53,14 +63,16 @@ export default async function PaginaSeccion({ params }: { params: Promise<{ slug
   const seccion = SECCIONES[slug];
   if (!seccion) return <div>Sección no encontrada</div>;
 
-  const { noticias, breaking, avisosIzq, avisosDer, avisosBanner } = await getData(slug);
+  const { noticias, breaking, avisosIzq, avisosDer, avisosBanner, mainSlots } = await getData(slug);
 
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', fontFamily: "'IBM Plex Sans', sans-serif" }}>
       <Header />
       <BreakingTicker noticias={breaking} />
 
-      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '24px 16px', display: 'grid', gridTemplateColumns: '148px 1fr 260px', gap: '24px' }}>
+      <AdBannerMain slots={mainSlots} />
+
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '24px 24px', display: 'grid', gridTemplateColumns: '148px 1fr 260px', gap: '24px' }}>
 
         <aside>
           <AdLateral avisos={avisosIzq} lado="izquierda" />
@@ -96,7 +108,7 @@ export default async function PaginaSeccion({ params }: { params: Promise<{ slug
                   </h2>
                   {n.copete && (
                     <p style={{ fontFamily: "'IBM Plex Sans', sans-serif", fontSize: '13px', color: '#2d2d2b', lineHeight: 1.5, marginBottom: '8px' }}>
-                      {n.copete}
+                      {n.copete.length > 250 ? n.copete.slice(0, 250).trimEnd() + '…' : n.copete}
                     </p>
                   )}
                   <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#9c9a94' }}>

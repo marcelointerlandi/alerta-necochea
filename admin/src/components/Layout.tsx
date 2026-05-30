@@ -36,7 +36,7 @@ export default function Layout() {
         
         <div style={{ padding: '24px 16px 20px', borderBottom: '1px solid #222' }}>
           <div style={{ fontFamily: "'IBM Plex Serif', Georgia, serif", fontSize: '22px', fontWeight: 700, textTransform: 'uppercase', lineHeight: 1, marginBottom: '4px' }}>
-            <span style={{ color: '#e8000d' }}>ALERTA</span>
+            <span style={{ color: '#e8000d' }}>INFORMATE</span>
             <span style={{ color: '#fff' }}> NECOCHEA</span>
           </div>
           <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '.1em', color: '#4a4845', marginTop: '4px' }}>Panel Admin</div>
@@ -49,9 +49,11 @@ export default function Layout() {
           <NavLink to="/noticias" style={({ isActive }) => navStyle(isActive)}>
             📰 Noticias
           </NavLink>
-          <NavLink to="/publicidad" style={({ isActive }) => navStyle(isActive)}>
-            📢 Publicidad
-          </NavLink>
+          {usuario?.rol === 'superadmin' && (
+            <NavLink to="/publicidad" style={({ isActive }) => navStyle(isActive)}>
+              📢 Publicidad
+            </NavLink>
+          )}
         </nav>
 
         <div style={{ padding: '16px', borderTop: '1px solid #222' }}>

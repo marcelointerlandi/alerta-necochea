@@ -2,7 +2,12 @@
 import { useEffect, useState } from 'react';
 import api from '../api';
 
-const POSICIONES = ['lateral-izquierda', 'lateral-derecha', 'banner-horizontal', 'banner-top', 'breaking'];
+const POSICIONES = [
+  'lateral-izquierda', 'lateral-derecha',
+  'banner-main-1', 'banner-main-2', 'banner-main-3',
+  'banner-main-4', 'banner-main-5', 'banner-main-6',
+  'banner-top', 'banner-horizontal', 'banner-medio', 'breaking',
+];
 
 const VACIO = {
   anunciante: '', imagen_url: '', url_destino: '',

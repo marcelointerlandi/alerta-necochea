@@ -22,12 +22,12 @@ function requireAuth(req, res, next) {
   }
 }
 
-// Solo permite acceso a administradores
-function requireAdmin(req, res, next) {
-  if (req.usuario?.rol !== 'admin') {
-    return res.status(403).json({ error: 'Acceso restringido a administradores' });
+// Solo permite acceso a superadmin
+function requireSuperAdmin(req, res, next) {
+  if (req.usuario?.rol !== 'superadmin') {
+    return res.status(403).json({ error: 'Acceso restringido a superadministradores' });
   }
   next();
 }
 
-module.exports = { requireAuth, requireAdmin };
+module.exports = { requireAuth, requireSuperAdmin };

@@ -1,10 +1,14 @@
 // frontend/app/page.tsx
+export const dynamic = 'force-dynamic';
+
+import { cookies } from 'next/headers';
 import axios from 'axios';
 import Header from './components/Header';
 import BreakingTicker from './components/BreakingTicker';
 import Hero from './components/Hero';
 import SeccionGrid from './components/SeccionGrid';
-import AdBanner from './components/AdBanner';
+import AdBanner from './components/AdBannerClient';
+import AdBannerMain from './components/AdBannerMainClient';
 import AdLateral from './components/AdLateral';
 import Footer from './components/Footer';
 
@@ -29,12 +33,60 @@ async function getAvisos(posicion: string) {
 }
 
 export default async function Portada() {
+  const cookieStore = await cookies();
+  const previewCookie = cookieStore.get('__inf_preview');
+  const isPreview = previewCookie?.value === process.env.PREVIEW_TOKEN && !!process.env.PREVIEW_TOKEN;
+
+  if (process.env.COMING_SOON === 'true' && !isPreview) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#ffffff',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '40px 20px',
+        gap: '32px',
+      }}>
+        <img
+          src="/proximamente.png"
+          alt="Informate Necochea — Próximamente"
+          style={{ maxWidth: '560px', width: '100%', objectFit: 'contain' }}
+        />
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '12px',
+          fontFamily: "'IBM Plex Mono', monospace",
+          fontSize: '14px',
+          color: '#2d2d2b',
+        }}>
+          <a href="mailto:informatenecochea@gmail.com" style={{ color: '#2d2d2b', textDecoration: 'none' }}>
+            ✉ informatenecochea@gmail.com
+          </a>
+          <a href="https://wa.me/542262218882" target="_blank" rel="noopener noreferrer" style={{ color: '#25D366', textDecoration: 'none' }}>
+            ● WhatsApp: 2262 218882
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   const portada = await getPortada();
-  const [avisosIzq, avisosDer, avisosBanner, avisosBannerTop] = await Promise.all([
+  const [avisosIzq, avisosDer, avisosBanner, avisosBannerTop, avisosBannerMedio, main1, main2, main3, main4, main5, main6] = await Promise.all([
     getAvisos('lateral-izquierda'),
     getAvisos('lateral-derecha'),
     getAvisos('banner-horizontal'),
     getAvisos('banner-top'),
+    getAvisos('banner-medio'),
+    getAvisos('banner-main-1'),
+    getAvisos('banner-main-2'),
+    getAvisos('banner-main-3'),
+    getAvisos('banner-main-4'),
+    getAvisos('banner-main-5'),
+    getAvisos('banner-main-6'),
   ]);
 
   return (
@@ -42,60 +94,40 @@ export default async function Portada() {
       <Header />
       <BreakingTicker noticias={portada.breaking} />
 
-      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '24px 16px', display: 'grid', gridTemplateColumns: '148px 1fr 260px', gap: '24px' }}>
-        
+      <AdBannerMain slots={[main1, main2, main3, main4, main5, main6]} />
+
+      <div className="page-grid">
+
         {/* Columna izquierda */}
-        <aside>
+        <aside className="col-lateral-izq">
           <AdLateral avisos={avisosIzq} lado="izquierda" />
         </aside>
 
         {/* Contenido principal */}
         <main style={{ minWidth: 0 }}>
-          <AdBanner avisos={avisosBannerTop} />
           <Hero destacadas={portada.destacadas} />
 
-          <SeccionGrid
-            titulo="Local"
-            color="#0052cc"
-            noticias={portada.locales}
-          />
-
-          <SeccionGrid
-            titulo="Nacional"
-            color="#111111"
-            noticias={portada.nacionales}
-          />
+          <AdBanner avisos={avisosBannerTop} />
+          <SeccionGrid titulo="Local" color="#0052cc" noticias={portada.locales} />
 
           <AdBanner avisos={avisosBanner} />
 
-          <SeccionGrid
-            titulo="Internacional"
-            color="#1a5e2e"
-            noticias={portada.internacionales}
-          />
+          <SeccionGrid titulo="Nacional" color="#111111" noticias={portada.nacionales} />
 
-          <SeccionGrid
-            titulo="Deportes"
-            color="#7b1fa2"
-            noticias={portada.deportes}
-          />
+          <SeccionGrid titulo="Internacional" color="#1a5e2e" noticias={portada.internacionales} />
 
-          <SeccionGrid
-            titulo="Economia"
-            color="#e65100"
-            noticias={portada.economia}
-          />
+          <AdBanner avisos={avisosBannerMedio} />
 
-          <SeccionGrid
-  titulo="Videos"
-  color="#c41230"
-  noticias={portada.videos}
-/>
+          <SeccionGrid titulo="Deportes" color="#7b1fa2" noticias={portada.deportes} />
+
+          <SeccionGrid titulo="Economia" color="#e65100" noticias={portada.economia} />
+
+          <SeccionGrid titulo="Videos" color="#c41230" noticias={portada.videos} />
 
         </main>
 
         {/* Columna derecha */}
-        <aside>
+        <aside className="col-lateral-der">
           <AdLateral avisos={avisosDer} lado="derecha" />
         </aside>
 

@@ -25,7 +25,7 @@ async function setup() {
       nombre         VARCHAR(100) NOT NULL,
       email          VARCHAR(150) NOT NULL UNIQUE,
       password_hash  VARCHAR(255) NOT NULL,
-      rol            ENUM('admin','editor') DEFAULT 'editor',
+      rol            ENUM('superadmin','admin') DEFAULT 'admin',
       activo         BOOLEAN DEFAULT TRUE,
       ultimo_login   DATETIME,
       creado_en      DATETIME DEFAULT NOW()
@@ -122,34 +122,28 @@ async function setup() {
     console.log('ℹ️  Secciones ya existen, no se modificaron');
   }
 
-  // ── USUARIO ADMIN ────────────────────────────────────────
-  const ADMIN_EMAIL    = 'admin@elnoDiario.com.ar';
-  const ADMIN_PASSWORD = 'Admin2026!';   // ← cambiá esto después desde el panel
+  // ── USUARIOS ─────────────────────────────────────────────
+  const usuarios = [
+    { nombre: 'Marcelo', email: 'marcelo@gmail.com',                  password: 'Admin2026!super', rol: 'superadmin' },
+    { nombre: 'Administrador', email: 'admin@informatenecochea.com.ar', password: 'Admin2026!',     rol: 'admin'      },
+  ];
 
-  const [existe] = await conn.query(
-    'SELECT id FROM usuarios WHERE email = ?', [ADMIN_EMAIL]
-  );
-
-  if (existe.length === 0) {
-    const hash = await bcrypt.hash(ADMIN_PASSWORD, 10);
-    await conn.query(
-      `INSERT INTO usuarios (nombre, email, password_hash, rol, activo)
-       VALUES ('Administrador', ?, ?, 'admin', TRUE)`,
-      [ADMIN_EMAIL, hash]
-    );
-    console.log('✅ Usuario admin creado');
-    console.log(`   Email:      ${ADMIN_EMAIL}`);
-    console.log(`   Contraseña: ${ADMIN_PASSWORD}`);
-  } else {
-    // Si ya existe, resetea la contraseña
-    const hash = await bcrypt.hash(ADMIN_PASSWORD, 10);
-    await conn.query(
-      'UPDATE usuarios SET password_hash = ?, activo = TRUE WHERE email = ?',
-      [hash, ADMIN_EMAIL]
-    );
-    console.log('✅ Contraseña del admin reseteada');
-    console.log(`   Email:      ${ADMIN_EMAIL}`);
-    console.log(`   Contraseña: ${ADMIN_PASSWORD}`);
+  for (const u of usuarios) {
+    const [existe] = await conn.query('SELECT id FROM usuarios WHERE email = ?', [u.email]);
+    const hash = await bcrypt.hash(u.password, 10);
+    if (existe.length === 0) {
+      await conn.query(
+        `INSERT INTO usuarios (nombre, email, password_hash, rol, activo) VALUES (?, ?, ?, ?, TRUE)`,
+        [u.nombre, u.email, hash, u.rol]
+      );
+      console.log(`✅ Usuario creado: ${u.email} (${u.rol})`);
+    } else {
+      await conn.query(
+        'UPDATE usuarios SET nombre = ?, password_hash = ?, rol = ?, activo = TRUE WHERE email = ?',
+        [u.nombre, hash, u.rol, u.email]
+      );
+      console.log(`✅ Usuario actualizado: ${u.email} (${u.rol})`);
+    }
   }
 
   await conn.end();

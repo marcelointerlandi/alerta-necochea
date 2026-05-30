@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Alerta Necochea — Periodismo sin filtros",
+  title: "Informate Necochea — Tu diario digital",
   description: "Noticias locales, nacionales e internacionales de Necochea y la región.",
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({

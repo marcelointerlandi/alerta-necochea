@@ -1,7 +1,11 @@
 // frontend/app/noticia/[slug]/page.tsx
+export const dynamic = 'force-dynamic';
+
 import axios from 'axios';
 import Header from '../../components/Header';
 import BreakingTicker from '../../components/BreakingTicker';
+import AdBanner from '../../components/AdBannerClient';
+import AdBannerMain from '../../components/AdBannerMainClient';
 import AdLateral from '../../components/AdLateral';
 import Footer from '../../components/Footer';
 import Link from 'next/link';
@@ -15,18 +19,34 @@ export default async function PaginaNoticia({ params }: { params: Promise<{ slug
   let breaking: any[] = [];
   let avisosIzq: any[] = [];
   let avisosDer: any[] = [];
+  let avisosBannerTop: any[] = [];
+  let avisosBannerMedio: any[] = [];
+  let main1: any[] = [], main2: any[] = [], main3: any[] = [];
+  let main4: any[] = [], main5: any[] = [], main6: any[] = [];
 
   try {
-    const [notRes, breakRes, izqRes, derRes] = await Promise.all([
+    const [notRes, breakRes, izqRes, derRes, topRes, medioRes, m1, m2, m3, m4, m5, m6] = await Promise.all([
       axios.get(`${API}/api/noticias/${slug}`),
       axios.get(`${API}/api/noticias?breaking=true&limite=8`),
       axios.get(`${API}/api/avisos?posicion=lateral-izquierda`),
       axios.get(`${API}/api/avisos?posicion=lateral-derecha`),
+      axios.get(`${API}/api/avisos?posicion=banner-top`),
+      axios.get(`${API}/api/avisos?posicion=banner-horizontal`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-1`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-2`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-3`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-4`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-5`),
+      axios.get(`${API}/api/avisos?posicion=banner-main-6`),
     ]);
-    noticia   = notRes.data;
-    breaking  = breakRes.data.noticias || [];
-    avisosIzq = izqRes.data;
-    avisosDer = derRes.data;
+    noticia           = notRes.data;
+    breaking          = breakRes.data.noticias || [];
+    avisosIzq         = izqRes.data;
+    avisosDer         = derRes.data;
+    avisosBannerTop   = topRes.data;
+    avisosBannerMedio = medioRes.data;
+    main1 = m1.data; main2 = m2.data; main3 = m3.data;
+    main4 = m4.data; main5 = m5.data; main6 = m6.data;
   } catch {
     noticia = null;
   }
@@ -49,27 +69,7 @@ export default async function PaginaNoticia({ params }: { params: Promise<{ slug
       <Header />
       <BreakingTicker noticias={breaking} />
 
-      <style>{`
-        .noticia-grid {
-          max-width: 1180px;
-          margin: 0 auto;
-          padding: 24px 16px;
-          display: grid;
-          grid-template-columns: 148px 1fr 260px;
-          gap: 24px;
-        }
-        .noticia-col-izq { display: block; }
-        .noticia-col-der { display: block; }
-        @media (max-width: 900px) {
-          .noticia-grid {
-            grid-template-columns: 1fr;
-            padding: 16px;
-            gap: 0;
-          }
-          .noticia-col-izq { display: none; }
-          .noticia-col-der { display: none; }
-        }
-      `}</style>
+      <AdBannerMain slots={[main1, main2, main3, main4, main5, main6]} />
 
       <div className="noticia-grid">
         <aside className="noticia-col-izq">
@@ -109,6 +109,8 @@ export default async function PaginaNoticia({ params }: { params: Promise<{ slug
             </div>
           </div>
 
+          <AdBanner avisos={avisosBannerTop} />
+
           {noticia.video_url && (
             <div style={{ marginBottom: '28px' }}>
               <video src={noticia.video_url} controls style={{ width: '100%', maxHeight: '520px', display: 'block', background: '#000' }} />
@@ -145,6 +147,8 @@ export default async function PaginaNoticia({ params }: { params: Promise<{ slug
               )}
             </figure>
           )}
+
+          <AdBanner avisos={avisosBannerMedio} />
 
           {noticia.relacionadas?.length > 0 && (
             <div style={{ borderTop: '2px solid #111110', paddingTop: '24px' }}>

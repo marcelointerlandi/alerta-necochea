@@ -11,7 +11,7 @@ interface Aviso {
 
 const INTERVAL_MS = 4000;
 
-export default function AdBanner({ avisos }: { avisos?: Aviso[] }) {
+export default function AdBanner({ avisos, variant }: { avisos?: Aviso[], variant?: 'main' }) {
   const lista = avisos?.slice(0, 3) || [];
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
@@ -37,11 +37,11 @@ export default function AdBanner({ avisos }: { avisos?: Aviso[] }) {
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
-    marginBottom: '24px',
+    marginBottom: variant === 'main' ? '0' : '24px',
     overflow: 'hidden',
     background: '#f9f8f5',
-    border: '1px solid #e2e0da',
-    height: '160px',
+    border: variant === 'main' ? 'none' : '1px solid #e2e0da',
+    height: variant === 'main' ? '120px' : '160px',
   };
 
   const labelStyle: React.CSSProperties = {
@@ -52,10 +52,10 @@ export default function AdBanner({ avisos }: { avisos?: Aviso[] }) {
     color: '#9c9a94',
   };
 
-  // Estado vacío
+  // Estado vacío — se oculta en móvil
   if (!lista.length) {
     return (
-      <div style={containerStyle}>
+      <div className="ad-banner-empty" style={containerStyle}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '24px 28px', height: '100%' }}>
           <span style={labelStyle}>Publicidad</span>
           <div style={{ width: '1px', height: '48px', background: '#e2e0da', flexShrink: 0 }} />
@@ -63,6 +63,39 @@ export default function AdBanner({ avisos }: { avisos?: Aviso[] }) {
             Espacio publicitario disponible
           </div>
         </div>
+      </div>
+    );
+  }
+
+  // Variant "main": todos los avisos lado a lado
+  if (variant === 'main') {
+    return (
+      <div style={{ ...containerStyle, display: 'flex' }}>
+        <span style={{ ...labelStyle, position: 'absolute', top: '6px', left: '10px', zIndex: 2 }}>Publicidad</span>
+        {lista.map((a) => (
+          <a
+            key={a.id}
+            href={a.url_destino ? (a.url_destino.startsWith('http') ? a.url_destino : `https://${a.url_destino}`) : '#'}
+            target={a.url_destino ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            style={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              borderRight: '1px solid #e2e0da',
+              textDecoration: 'none',
+              cursor: a.url_destino ? 'pointer' : 'default',
+            }}
+          >
+            {a.imagen_url ? (
+              <img src={a.imagen_url} alt={a.anunciante} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <span style={{ fontFamily: "'IBM Plex Sans', sans-serif", fontSize: '18px', fontWeight: 700, color: '#2d2d2b' }}>{a.anunciante}</span>
+            )}
+          </a>
+        ))}
       </div>
     );
   }
@@ -110,7 +143,7 @@ export default function AdBanner({ avisos }: { avisos?: Aviso[] }) {
           <img
             src={aviso.imagen_url}
             alt={aviso.anunciante}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
           />
         ) : (
           <div style={{
