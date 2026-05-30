@@ -18,8 +18,18 @@ router.get('/', async (req, res) => {
     const hoy = new Date().toISOString().split('T')[0];
     let query = `SELECT id, anunciante, imagen_url, url_destino, posicion FROM avisos WHERE activo = TRUE AND (fecha_inicio IS NULL OR fecha_inicio <= ?) AND (fecha_fin IS NULL OR fecha_fin >= ?)`;
     const params = [hoy, hoy];
-    if (posicion) { query += ' AND posicion = ?'; params.push(posicion); }
-    query += ' ORDER BY prioridad DESC';
+    if (posicion) {
+      // lateral-izquierda y lateral-derecha traen todos sus slots numerados
+      const esGrupoLateral = posicion === 'lateral-izquierda' || posicion === 'lateral-derecha';
+      if (esGrupoLateral) {
+        query += ' AND posicion LIKE ?';
+        params.push(posicion + '%');
+      } else {
+        query += ' AND posicion = ?';
+        params.push(posicion);
+      }
+    }
+    query += ' ORDER BY posicion ASC, prioridad DESC';
     const [rows] = await db.query(query, params);
     if (rows.length) {
       const ids = rows.map(r => r.id);

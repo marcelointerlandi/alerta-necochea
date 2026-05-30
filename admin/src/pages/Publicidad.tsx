@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import api from '../api';
 
 const POSICIONES = [
-  'lateral-izquierda', 'lateral-derecha',
+  ...Array.from({ length: 10 }, (_, i) => `lateral-izquierda-${i + 1}`),
+  ...Array.from({ length: 10 }, (_, i) => `lateral-derecha-${i + 1}`),
   'banner-main-1', 'banner-main-2', 'banner-main-3',
   'banner-main-4', 'banner-main-5', 'banner-main-6',
   'banner-top', 'banner-horizontal', 'banner-medio', 'breaking',
@@ -11,7 +12,7 @@ const POSICIONES = [
 
 const VACIO = {
   anunciante: '', imagen_url: '', url_destino: '',
-  posicion: 'lateral-izquierda', prioridad: 0,
+  posicion: 'lateral-izquierda-1', prioridad: 0,
   activo: true, fecha_inicio: '', fecha_fin: '',
 };
 

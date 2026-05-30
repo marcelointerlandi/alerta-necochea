@@ -7,16 +7,17 @@ interface Aviso {
   anunciante: string;
   imagen_url: string | null;
   url_destino: string;
+  posicion: string;
 }
 
 const INTERVALO = 7000;
-const ALTURA = '320px';
+const TOTAL_SLOTS = 10;
 
-export default function AdLateral({ avisos, lado }: { avisos: Aviso[], lado: string }) {
+function SlotAviso({ avisos }: { avisos: Aviso[] }) {
   const [indice, setIndice] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  const lista = avisos?.slice(0, 3) ?? [];
+  const lista = avisos.slice(0, 3);
 
   useEffect(() => {
     if (lista.length <= 1) return;
@@ -42,22 +43,15 @@ export default function AdLateral({ avisos, lado }: { avisos: Aviso[], lado: str
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-  };
-
-  const contenedorStyle: React.CSSProperties = {
-    background: '#f9f8f5',
-    border: '1px solid #e2e0da',
-    display: 'flex',
-    flexDirection: 'column',
-    height: ALTURA,
+    flexShrink: 0,
   };
 
   if (!lista.length) {
     return (
-      <div style={contenedorStyle}>
+      <div style={{ background: '#f9f8f5', border: '1px solid #e2e0da', display: 'flex', flexDirection: 'column', height: '280px' }}>
         <div style={labelStyle}><span>Publicidad</span></div>
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px', textAlign: 'center' }}>
-          <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#9c9a94', lineHeight: 1.5 }}>Espacio publicitario disponible</span>
+          <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#c8c6c0', lineHeight: 1.5 }}>Espacio publicitario disponible</span>
         </div>
       </div>
     );
@@ -66,7 +60,7 @@ export default function AdLateral({ avisos, lado }: { avisos: Aviso[], lado: str
   const aviso = lista[indice];
 
   return (
-    <div style={contenedorStyle}>
+    <div style={{ background: '#f9f8f5', border: '1px solid #e2e0da', display: 'flex', flexDirection: 'column', height: '280px' }}>
       <div style={labelStyle}>
         <span>Publicidad</span>
         {lista.length > 1 && (
@@ -88,10 +82,11 @@ export default function AdLateral({ avisos, lado }: { avisos: Aviso[], lado: str
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '20px',
+          padding: '16px',
           cursor: aviso.url_destino ? 'pointer' : 'default',
           opacity: visible ? 1 : 0,
           transition: 'opacity 0.3s ease',
+          minHeight: 0,
         }}
       >
         {aviso.imagen_url ? (
@@ -102,6 +97,31 @@ export default function AdLateral({ avisos, lado }: { avisos: Aviso[], lado: str
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+export default function AdLateral({ avisos, lado }: { avisos: Aviso[], lado: string }) {
+  // Agrupar por slot numérico: lateral-izquierda-3 → slot índice 2
+  const slots: Aviso[][] = Array.from({ length: TOTAL_SLOTS }, () => []);
+
+  for (const aviso of avisos ?? []) {
+    const match = aviso.posicion.match(/-(\d+)$/);
+    const idx = match ? parseInt(match[1]) - 1 : 0;
+    if (idx >= 0 && idx < TOTAL_SLOTS) {
+      slots[idx].push(aviso);
+    }
+  }
+
+  // Mostrar solo los slots ocupados + 1 vacío al final (hasta 10)
+  const ultimoOcupado = slots.reduce((last, s, i) => s.length ? i : last, -1);
+  const cantMostrar = Math.min(ultimoOcupado + 2, TOTAL_SLOTS);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      {Array.from({ length: cantMostrar }, (_, i) => (
+        <SlotAviso key={i} avisos={slots[i]} />
+      ))}
     </div>
   );
 }
