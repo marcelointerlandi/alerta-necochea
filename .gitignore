@@ -15,7 +15,8 @@ uploads/
 
 # Build output
 dist/
-build/
+frontend/.next/
+backend/dist/
 
 # Logs
 *.log
