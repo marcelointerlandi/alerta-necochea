@@ -65,6 +65,20 @@ export default async function PaginaSeccion({ params }: { params: Promise<{ slug
 
   const { noticias, breaking, avisosIzq, avisosDer, avisosBanner, mainSlots } = await getData(slug);
 
+  function groupByPos(avisos: any[]): any[][] {
+    const map = new Map<string, any[]>();
+    for (const a of avisos) {
+      const arr = map.get(a.posicion) ?? [];
+      arr.push(a);
+      map.set(a.posicion, arr);
+    }
+    return [...map.values()];
+  }
+
+  const slotsIzq = groupByPos(avisosIzq);
+  const slotsDer = groupByPos(avisosDer);
+  const mainActivos = mainSlots.filter((s: any[]) => s.length > 0);
+
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', fontFamily: "'IBM Plex Sans', sans-serif" }}>
       <Header />
@@ -120,6 +134,16 @@ export default async function PaginaSeccion({ params }: { params: Promise<{ slug
           )}
 
           <AdBanner avisos={avisosBanner} />
+
+          {/* Publicidades solo mobile */}
+          {(mainActivos.length > 0 || avisosBanner.length > 0 || slotsDer.length > 0 || slotsIzq.length > 0) && (
+            <div className="mobile-2col" style={{ marginTop: '16px' }}>
+              {mainActivos.map((slot: any[], i: number) => <AdBanner key={`m${i}`} avisos={slot} />)}
+              {avisosBanner.length > 0 && <AdBanner avisos={avisosBanner} />}
+              {slotsDer.map((g: any[], i: number) => <AdBanner key={`d${i}`} avisos={g} />)}
+              {slotsIzq.map((g: any[], i: number) => <AdBanner key={`iz${i}`} avisos={g} />)}
+            </div>
+          )}
         </main>
 
         <aside className="noticia-col-der">
