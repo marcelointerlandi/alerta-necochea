@@ -11,6 +11,35 @@ import Footer from '../../components/Footer';
 import Link from 'next/link';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const SITE = 'https://informatenecochea.com';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  try {
+    const { data: n } = await axios.get(`${API}/api/noticias/${slug}`);
+    return {
+      title: n.titulo,
+      description: n.copete || n.titulo,
+      openGraph: {
+        title: n.titulo,
+        description: n.copete || '',
+        url: `${SITE}/noticia/${slug}`,
+        siteName: 'Informate Necochea',
+        type: 'article',
+        publishedTime: n.fecha_publicacion,
+        images: n.imagen_url ? [{ url: n.imagen_url, width: 1200, height: 630, alt: n.titulo }] : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: n.titulo,
+        description: n.copete || '',
+        images: n.imagen_url ? [n.imagen_url] : [],
+      },
+    };
+  } catch {
+    return { title: 'Informate Necochea' };
+  }
+}
 
 export default async function PaginaNoticia({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
