@@ -15,9 +15,9 @@ const AdBannerMainInner = dynamic(() => import('./AdBannerMain'), {
   ),
 });
 
-export default function AdBannerMainClient({ slots }: { slots: Aviso[][] }) {
+export default function AdBannerMainClient({ slots, inline }: { slots: Aviso[][], inline?: boolean }) {
   return (
-    <div className="banner-main" style={{ borderTop: '1px solid #e2e0da', borderBottom: '1px solid #e2e0da' }}>
+    <div className={inline ? undefined : 'banner-main'} style={{ borderTop: '1px solid #e2e0da', borderBottom: '1px solid #e2e0da', marginBottom: inline ? '24px' : undefined }}>
       <AdBannerMainInner slots={slots} />
     </div>
   );

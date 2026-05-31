@@ -138,6 +138,13 @@ a {
   .banner-main { display: block; }
 }
 
+/* ---- SOLO MOBILE ---- */
+.mobile-only { display: block; }
+
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+}
+
 /* ---- BANNERS VACÍOS ---- */
 .ad-banner-empty { display: none; }
 

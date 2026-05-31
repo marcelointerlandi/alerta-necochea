@@ -77,18 +77,14 @@ export default async function Portada() {
   const portada = await getPortada();
   const [
     avisosIzq, avisosDer,
-    avisosBannerTop, avisosBanner, avisosBannerNacional,
-    avisosBannerMedio, avisosBannerDeportes, avisosBannerEconomia,
+    avisosBannerTop, avisosBanner, avisosBannerMedio,
     main1, main2, main3, main4, main5, main6,
   ] = await Promise.all([
     getAvisos('lateral-izquierda'),
     getAvisos('lateral-derecha'),
     getAvisos('banner-top'),
     getAvisos('banner-horizontal'),
-    getAvisos('banner-nacional'),
     getAvisos('banner-medio'),
-    getAvisos('banner-deportes'),
-    getAvisos('banner-economia'),
     getAvisos('banner-main-1'),
     getAvisos('banner-main-2'),
     getAvisos('banner-main-3'),
@@ -97,18 +93,24 @@ export default async function Portada() {
     getAvisos('banner-main-6'),
   ]);
 
-  // Pool de todos los avisos laterales para reutilizar en banners entre secciones
-  const poolMobile = [...avisosIzq, ...avisosDer];
-  const bNacional  = avisosBannerNacional.length  ? avisosBannerNacional  : poolMobile;
-  const bDeportes  = avisosBannerDeportes.length  ? avisosBannerDeportes  : poolMobile;
-  const bEconomia  = avisosBannerEconomia.length  ? avisosBannerEconomia  : poolMobile;
+  // Agrupa avisos laterales por posición → cada slot se muestra como un banner
+  function groupByPos(avisos: any[]): any[][] {
+    const map = new Map<string, any[]>();
+    for (const a of avisos) {
+      const arr = map.get(a.posicion) ?? [];
+      arr.push(a);
+      map.set(a.posicion, arr);
+    }
+    return [...map.values()];
+  }
+
+  const slotsIzq = groupByPos(avisosIzq);
+  const slotsDer = groupByPos(avisosDer);
 
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', fontFamily: "'IBM Plex Sans', sans-serif" }}>
       <Header />
       <BreakingTicker noticias={portada.breaking} />
-
-      <AdBannerMain slots={[main1, main2, main3, main4, main5, main6]} />
 
       <div className="page-grid">
 
@@ -121,27 +123,33 @@ export default async function Portada() {
         <main style={{ minWidth: 0 }}>
           <Hero destacadas={portada.destacadas} />
 
-          <AdBanner avisos={avisosBannerTop} />
+          {/* Sección 1 → después: todos los banners main */}
           <SeccionGrid titulo="Local" color="#0052cc" noticias={portada.locales} />
+          <AdBannerMain slots={[main1, main2, main3, main4, main5, main6]} inline />
 
-          <AdBanner avisos={avisosBanner} />
-
+          {/* Sección 2 → después: todos los banners horizontales */}
           <SeccionGrid titulo="Nacional" color="#111111" noticias={portada.nacionales} />
-
-          <AdBanner avisos={bNacional} />
-
-          <SeccionGrid titulo="Internacional" color="#1a5e2e" noticias={portada.internacionales} />
-
+          <AdBanner avisos={avisosBannerTop} />
+          <AdBanner avisos={avisosBanner} />
           <AdBanner avisos={avisosBannerMedio} />
 
-          <SeccionGrid titulo="Deportes" color="#7b1fa2" noticias={portada.deportes} />
+          {/* Sección 3 → después: todos los banners derechos (solo mobile) */}
+          <SeccionGrid titulo="Internacional" color="#1a5e2e" noticias={portada.internacionales} />
+          {slotsDer.length > 0 && (
+            <div className="mobile-only">
+              {slotsDer.map((g, i) => <AdBanner key={i} avisos={g} />)}
+            </div>
+          )}
 
-          <AdBanner avisos={bDeportes} />
+          {/* Sección 4 → después: todos los banners izquierdos (solo mobile) */}
+          <SeccionGrid titulo="Deportes" color="#7b1fa2" noticias={portada.deportes} />
+          {slotsIzq.length > 0 && (
+            <div className="mobile-only">
+              {slotsIzq.map((g, i) => <AdBanner key={i} avisos={g} />)}
+            </div>
+          )}
 
           <SeccionGrid titulo="Economia" color="#e65100" noticias={portada.economia} />
-
-          <AdBanner avisos={bEconomia} />
-
           <SeccionGrid titulo="Videos" color="#c41230" noticias={portada.videos} />
 
         </main>
