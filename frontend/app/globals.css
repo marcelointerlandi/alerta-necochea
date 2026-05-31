@@ -145,6 +145,22 @@ a {
   .mobile-only { display: none !important; }
 }
 
+/* ---- GRILLA 2 COLUMNAS SOLO MOBILE ---- */
+.mobile-2col { display: none; }
+
+@media (max-width: 768px) {
+  .mobile-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .mobile-2col > * {
+    margin-bottom: 0 !important;
+    height: 120px !important;
+  }
+}
+
 /* ---- BANNERS VACÍOS ---- */
 .ad-banner-empty { display: none; }
 

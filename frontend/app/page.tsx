@@ -127,8 +127,24 @@ export default async function Portada() {
 
           <AdBanner avisos={avisosBannerTop} />
           <SeccionGrid titulo="Local" color="#0052cc" noticias={portada.locales} />
+
+          {/* Mobile: main banners en 2 columnas */}
+          <div className="mobile-2col">
+            {[main1, main2, main3, main4, main5, main6].filter(s => s.length > 0).map((slot, i) => (
+              <AdBanner key={i} avisos={slot} />
+            ))}
+          </div>
+
           <AdBanner avisos={avisosBanner} />
           <SeccionGrid titulo="Nacional" color="#111111" noticias={portada.nacionales} />
+
+          {/* Mobile: banners horizontales en 2 columnas */}
+          <div className="mobile-2col">
+            {[avisosBannerTop, avisosBanner, avisosBannerMedio].filter(s => s.length > 0).map((slot, i) => (
+              <AdBanner key={i} avisos={slot} />
+            ))}
+          </div>
+
           <AdBanner avisos={avisosBannerMedio} />
 
           {/* Sección 3 → después: todos los banners derechos (solo mobile) */}
