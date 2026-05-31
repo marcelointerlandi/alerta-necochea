@@ -75,12 +75,20 @@ export default async function Portada() {
   }
 
   const portada = await getPortada();
-  const [avisosIzq, avisosDer, avisosBanner, avisosBannerTop, avisosBannerMedio, main1, main2, main3, main4, main5, main6] = await Promise.all([
+  const [
+    avisosIzq, avisosDer,
+    avisosBannerTop, avisosBanner, avisosBannerNacional,
+    avisosBannerMedio, avisosBannerDeportes, avisosBannerEconomia,
+    main1, main2, main3, main4, main5, main6,
+  ] = await Promise.all([
     getAvisos('lateral-izquierda'),
     getAvisos('lateral-derecha'),
-    getAvisos('banner-horizontal'),
     getAvisos('banner-top'),
+    getAvisos('banner-horizontal'),
+    getAvisos('banner-nacional'),
     getAvisos('banner-medio'),
+    getAvisos('banner-deportes'),
+    getAvisos('banner-economia'),
     getAvisos('banner-main-1'),
     getAvisos('banner-main-2'),
     getAvisos('banner-main-3'),
@@ -114,13 +122,19 @@ export default async function Portada() {
 
           <SeccionGrid titulo="Nacional" color="#111111" noticias={portada.nacionales} />
 
+          <AdBanner avisos={avisosBannerNacional} />
+
           <SeccionGrid titulo="Internacional" color="#1a5e2e" noticias={portada.internacionales} />
 
           <AdBanner avisos={avisosBannerMedio} />
 
           <SeccionGrid titulo="Deportes" color="#7b1fa2" noticias={portada.deportes} />
 
+          <AdBanner avisos={avisosBannerDeportes} />
+
           <SeccionGrid titulo="Economia" color="#e65100" noticias={portada.economia} />
+
+          <AdBanner avisos={avisosBannerEconomia} />
 
           <SeccionGrid titulo="Videos" color="#c41230" noticias={portada.videos} />
 

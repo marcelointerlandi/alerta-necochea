@@ -5,9 +5,11 @@ import api from '../api';
 const POSICIONES = [
   ...Array.from({ length: 10 }, (_, i) => `lateral-izquierda-${i + 1}`),
   ...Array.from({ length: 10 }, (_, i) => `lateral-derecha-${i + 1}`),
+  'banner-top', 'banner-horizontal', 'banner-nacional',
+  'banner-medio', 'banner-deportes', 'banner-economia',
   'banner-main-1', 'banner-main-2', 'banner-main-3',
   'banner-main-4', 'banner-main-5', 'banner-main-6',
-  'banner-top', 'banner-horizontal', 'banner-medio', 'breaking',
+  'breaking',
 ];
 
 const VACIO = {
