@@ -9,6 +9,7 @@ import AdBannerMain from '../../components/AdBannerMainClient';
 import AdLateral from '../../components/AdLateral';
 import Footer from '../../components/Footer';
 import Link from 'next/link';
+import ScrollToTop from '../../components/ScrollToTop';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 const SITE = 'https://informatenecochea.com';
@@ -83,6 +84,7 @@ export default async function PaginaNoticia({ params }: { params: Promise<{ slug
       {noticia.imagen_url && <meta name="twitter:image" content={noticia.imagen_url} />}
 
     <div style={{ background: '#ffffff', minHeight: '100vh', fontFamily: "'IBM Plex Sans', sans-serif" }}>
+      <ScrollToTop />
       <Header />
       <BreakingTicker noticias={breaking} />
 
@@ -176,7 +178,7 @@ export default async function PaginaNoticia({ params }: { params: Promise<{ slug
                 {noticia.relacionadas.map((r: any) => (
                   <div key={r.slug} style={{ borderTop: `2px solid ${r.seccion_color}`, paddingTop: '10px' }}>
                     <h3 style={{ fontFamily: "'IBM Plex Serif', Georgia, serif", fontSize: '14px', fontWeight: 600, lineHeight: 1.3 }}>
-                      <Link href={`/noticia/${r.slug}`} style={{ color: '#111110', textDecoration: 'none' }}>{r.titulo}</Link>
+                      <Link href={`/noticia/${r.slug}`} scroll={true} style={{ color: '#111110', textDecoration: 'none' }}>{r.titulo}</Link>
                     </h3>
                   </div>
                 ))}
