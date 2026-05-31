@@ -150,7 +150,7 @@ export default async function Portada() {
           {/* Sección 3 → después: todos los banners derechos (solo mobile) */}
           <SeccionGrid titulo="Internacional" color="#1a5e2e" noticias={portada.internacionales} />
           {slotsDer.length > 0 && (
-            <div className="mobile-only">
+            <div className="mobile-2col">
               {slotsDer.map((g, i) => <AdBanner key={i} avisos={g} />)}
             </div>
           )}
@@ -158,7 +158,7 @@ export default async function Portada() {
           {/* Sección 4 → después: todos los banners izquierdos (solo mobile) */}
           <SeccionGrid titulo="Deportes" color="#7b1fa2" noticias={portada.deportes} />
           {slotsIzq.length > 0 && (
-            <div className="mobile-only">
+            <div className="mobile-2col">
               {slotsIzq.map((g, i) => <AdBanner key={i} avisos={g} />)}
             </div>
           )}
