@@ -74,7 +74,7 @@ router.get('/portada', async (req, res) => {
       WHERE n.publicada = TRUE
     `;
 
-    const [destacadas]      = await db.query(`${baseSelect} AND n.es_destacada = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 7`);
+    const [destacadas]      = await db.query(`${baseSelect} AND n.es_destacada = TRUE ORDER BY COALESCE(n.orden_portada, 99) ASC, n.fecha_publicacion DESC LIMIT 7`);
     const [breaking]        = await db.query(`${baseSelect} AND n.es_breaking  = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 8`);
     const [locales]         = await db.query(`${baseSelect} AND s.slug = 'local'         ORDER BY n.fecha_publicacion DESC LIMIT 4`);
     const [nacionales]      = await db.query(`${baseSelect} AND s.slug = 'nacional'      ORDER BY n.fecha_publicacion DESC LIMIT 4`);
@@ -168,7 +168,8 @@ router.post('/', requireAuth, async (req, res) => {
       imagen_url_3, imagen_caption_3,
       video_url, es_video,
       seccion_id, autor_id, autor_externo,
-      es_destacada, es_breaking, es_opinion, publicada, fecha_publicacion
+      es_destacada, es_breaking, es_opinion, publicada, fecha_publicacion,
+      orden_portada
     } = req.body;
 
     if (!titulo || !seccion_id) {
@@ -187,8 +188,9 @@ router.post('/', requireAuth, async (req, res) => {
          imagen_url_3, imagen_caption_3,
          video_url, es_video,
          seccion_id, autor_id, autor_externo,
-         es_destacada, es_breaking, es_opinion, publicada, fecha_publicacion)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         es_destacada, es_breaking, es_opinion, publicada, fecha_publicacion,
+         orden_portada)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [
       titulo, slug, copete || null, cuerpo || null,
       imagen_url || null, imagen_caption || null,
@@ -198,7 +200,8 @@ router.post('/', requireAuth, async (req, res) => {
       seccion_id, autor_id || null, autor_externo || null,
       es_destacada ? 1 : 0, es_breaking ? 1 : 0, es_opinion ? 1 : 0,
       publicada ? 1 : 0,
-      fecha_publicacion || new Date()
+      fecha_publicacion || new Date(),
+      orden_portada != null ? Number(orden_portada) : null
     ]);
 
     res.status(201).json({ id: result.insertId, slug, mensaje: 'Noticia creada' });
@@ -217,7 +220,8 @@ router.put('/:id', requireAuth, async (req, res) => {
       imagen_url_3, imagen_caption_3,
       video_url, es_video,
       seccion_id, autor_id, autor_externo,
-      es_destacada, es_breaking, es_opinion, publicada, fecha_publicacion
+      es_destacada, es_breaking, es_opinion, publicada, fecha_publicacion,
+      orden_portada
     } = req.body;
 
     let fecha;
@@ -249,7 +253,8 @@ router.put('/:id', requireAuth, async (req, res) => {
         es_breaking      = ?,
         es_opinion       = ?,
         publicada        = ?,
-        fecha_publicacion = ?
+        fecha_publicacion = ?,
+        orden_portada    = ?
       WHERE id = ?
     `, [
       titulo           || null,
@@ -271,6 +276,7 @@ router.put('/:id', requireAuth, async (req, res) => {
       es_opinion       ? 1 : 0,
       publicada        ? 1 : 0,
       fecha,
+      orden_portada != null ? Number(orden_portada) : null,
       req.params.id
     ]);
 

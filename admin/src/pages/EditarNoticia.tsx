@@ -21,6 +21,7 @@ const VACIO = {
   video_url: '', es_video: false,
   seccion_id: 1, autor_externo: '',
   es_destacada: false, es_breaking: false, es_opinion: false, publicada: false,
+  orden_portada: '',
 };
 
 export default function EditarNoticia() {
@@ -175,6 +176,23 @@ export default function EditarNoticia() {
                 {lbl}
               </label>
             ))}
+            {form.es_destacada && (
+              <div style={{ marginTop: '4px', paddingTop: '12px', borderTop: '1px solid #e2e0da' }}>
+                {label('Posición en portada (1 = principal)')}
+                <input
+                  type="number"
+                  min={1}
+                  max={7}
+                  value={form.orden_portada}
+                  onChange={(e) => cambiar('orden_portada', e.target.value === '' ? '' : Number(e.target.value))}
+                  style={{ ...inputStyle, width: '80px' }}
+                  placeholder="Auto"
+                />
+                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: '#9c9a94', marginTop: '5px', lineHeight: 1.5 }}>
+                  1 = foto grande arriba. Dejá vacío para orden automático (más reciente primero).
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
