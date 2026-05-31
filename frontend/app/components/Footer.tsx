@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer style={{ background: '#1e1e1c', color: '#c8c6c0', fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', marginTop: '16px' }}>
-      <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '48px 20px 36px', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '48px', borderBottom: '1px solid #3a3a38' }}>
+      <div className="footer-grid">
 
         {/* Logo y contacto */}
         <div>
