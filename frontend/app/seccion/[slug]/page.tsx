@@ -72,9 +72,9 @@ export default async function PaginaSeccion({ params }: { params: Promise<{ slug
 
       <AdBannerMain slots={mainSlots} />
 
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '24px 24px', display: 'grid', gridTemplateColumns: '148px 1fr 260px', gap: '24px' }}>
+      <div className="noticia-grid">
 
-        <aside>
+        <aside className="noticia-col-izq">
           <AdLateral avisos={avisosIzq} lado="izquierda" />
         </aside>
 
@@ -91,7 +91,7 @@ export default async function PaginaSeccion({ params }: { params: Promise<{ slug
               No hay noticias en esta sección todavía.
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '24px' }}>
+            <div className="seccion-noticias">
               {noticias.map((n: any) => (
                 <div key={n.id} style={{ borderTop: `2px solid ${seccion.color}`, paddingTop: '12px' }}>
                   {n.imagen_url ? (
@@ -122,7 +122,7 @@ export default async function PaginaSeccion({ params }: { params: Promise<{ slug
           <AdBanner avisos={avisosBanner} />
         </main>
 
-        <aside>
+        <aside className="noticia-col-der">
           <AdLateral avisos={avisosDer} lado="derecha" />
         </aside>
 

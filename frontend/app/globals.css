@@ -219,6 +219,28 @@ a {
   overflow: hidden;
 }
 
+/* ---- GRILLA SECCION ---- */
+.seccion-noticias {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1200px) {
+  .seccion-noticias {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .seccion-noticias {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 /* ---- TICKER ---- */
 @keyframes ticker {
   from { transform: translateX(0); }
