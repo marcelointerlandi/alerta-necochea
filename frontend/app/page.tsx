@@ -112,6 +112,8 @@ export default async function Portada() {
       <Header />
       <BreakingTicker noticias={portada.breaking} />
 
+      <AdBannerMain slots={[main1, main2, main3, main4, main5, main6]} />
+
       <div className="page-grid">
 
         {/* Columna izquierda */}
@@ -123,14 +125,10 @@ export default async function Portada() {
         <main style={{ minWidth: 0 }}>
           <Hero destacadas={portada.destacadas} />
 
-          {/* Sección 1 → después: todos los banners main */}
-          <SeccionGrid titulo="Local" color="#0052cc" noticias={portada.locales} />
-          <AdBannerMain slots={[main1, main2, main3, main4, main5, main6]} inline />
-
-          {/* Sección 2 → después: todos los banners horizontales */}
-          <SeccionGrid titulo="Nacional" color="#111111" noticias={portada.nacionales} />
           <AdBanner avisos={avisosBannerTop} />
+          <SeccionGrid titulo="Local" color="#0052cc" noticias={portada.locales} />
           <AdBanner avisos={avisosBanner} />
+          <SeccionGrid titulo="Nacional" color="#111111" noticias={portada.nacionales} />
           <AdBanner avisos={avisosBannerMedio} />
 
           {/* Sección 3 → después: todos los banners derechos (solo mobile) */}
