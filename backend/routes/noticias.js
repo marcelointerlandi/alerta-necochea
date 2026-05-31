@@ -76,7 +76,7 @@ router.get('/portada', async (req, res) => {
 
     const [destacadas]      = await db.query(`${baseSelect} AND n.es_destacada = TRUE ORDER BY COALESCE(n.orden_portada, 99) ASC, n.fecha_publicacion DESC LIMIT 7`);
     const [breaking]        = await db.query(`${baseSelect} AND n.es_breaking  = TRUE ORDER BY n.fecha_publicacion DESC LIMIT 8`);
-    const [locales]         = await db.query(`${baseSelect} AND s.slug = 'local'         ORDER BY n.fecha_publicacion DESC LIMIT 4`);
+    const [locales]         = await db.query(`${baseSelect} AND s.slug = 'local'         ORDER BY n.fecha_publicacion DESC LIMIT 6`);
     const [nacionales]      = await db.query(`${baseSelect} AND s.slug = 'nacional'      ORDER BY n.fecha_publicacion DESC LIMIT 4`);
     const [internacionales] = await db.query(`${baseSelect} AND s.slug = 'internacional' ORDER BY n.fecha_publicacion DESC LIMIT 4`);
     const [deportes]        = await db.query(`${baseSelect} AND s.slug = 'deportes'      ORDER BY n.fecha_publicacion DESC LIMIT 4`);

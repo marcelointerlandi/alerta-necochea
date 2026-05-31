@@ -126,7 +126,7 @@ export default async function Portada() {
           <Hero destacadas={portada.destacadas} />
 
           <AdBanner avisos={avisosBannerTop} />
-          <SeccionGrid titulo="Local" color="#0052cc" noticias={portada.locales} />
+          <SeccionGrid titulo="Local" color="#0052cc" noticias={portada.locales} limite={6} />
 
           {/* Mobile: main banners en 2 columnas */}
           <div className="mobile-2col">

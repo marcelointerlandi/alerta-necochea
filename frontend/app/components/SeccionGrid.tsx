@@ -17,6 +17,7 @@ interface Props {
   titulo: string;
   color: string;
   noticias: Noticia[];
+  limite?: number;
 }
 
 function tiempoRelativo(fecha: string) {
@@ -27,14 +28,14 @@ function tiempoRelativo(fecha: string) {
   return `Hace ${Math.floor(h / 24)}d`;
 }
 
-export default function SeccionGrid({ titulo, color, noticias }: Props) {
+export default function SeccionGrid({ titulo, color, noticias, limite = 4 }: Props) {
   if (!noticias?.length) return null;
 
   const slugSeccion = titulo
     .toLowerCase()
     .normalize('NFD').replace(/[̀-ͯ]/g, '');
 
-  const items = noticias.slice(0, 4);
+  const items = noticias.slice(0, limite);
 
   return (
     <div style={{ marginBottom: '24px' }}>
