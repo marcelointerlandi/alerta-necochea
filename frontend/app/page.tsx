@@ -97,6 +97,12 @@ export default async function Portada() {
     getAvisos('banner-main-6'),
   ]);
 
+  // Pool de todos los avisos laterales para reutilizar en banners entre secciones
+  const poolMobile = [...avisosIzq, ...avisosDer];
+  const bNacional  = avisosBannerNacional.length  ? avisosBannerNacional  : poolMobile;
+  const bDeportes  = avisosBannerDeportes.length  ? avisosBannerDeportes  : poolMobile;
+  const bEconomia  = avisosBannerEconomia.length  ? avisosBannerEconomia  : poolMobile;
+
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', fontFamily: "'IBM Plex Sans', sans-serif" }}>
       <Header />
@@ -122,7 +128,7 @@ export default async function Portada() {
 
           <SeccionGrid titulo="Nacional" color="#111111" noticias={portada.nacionales} />
 
-          <AdBanner avisos={avisosBannerNacional} />
+          <AdBanner avisos={bNacional} />
 
           <SeccionGrid titulo="Internacional" color="#1a5e2e" noticias={portada.internacionales} />
 
@@ -130,11 +136,11 @@ export default async function Portada() {
 
           <SeccionGrid titulo="Deportes" color="#7b1fa2" noticias={portada.deportes} />
 
-          <AdBanner avisos={avisosBannerDeportes} />
+          <AdBanner avisos={bDeportes} />
 
           <SeccionGrid titulo="Economia" color="#e65100" noticias={portada.economia} />
 
-          <AdBanner avisos={avisosBannerEconomia} />
+          <AdBanner avisos={bEconomia} />
 
           <SeccionGrid titulo="Videos" color="#c41230" noticias={portada.videos} />
 
