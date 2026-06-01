@@ -23,8 +23,6 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3000,
-        COMING_SOON: 'true',
-        PREVIEW_TOKEN: 'Inf2026Necochea_preview',
       },
     },
   ],
