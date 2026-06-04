@@ -15,7 +15,7 @@ code {
 /* ── Layout responsivo ────────────────────────────────────── */
 
 /* Desktop: mostrar sidebar fijo, ocultar topbar */
-.sidebar-desktop  { display: flex; }
+.sidebar-desktop  { display: flex; align-self: stretch; }
 .mobile-topbar    { display: none !important; }
 .sidebar-mobile   { display: none !important; }
 .sidebar-close-btn { display: none !important; }

@@ -37,12 +37,13 @@ export default function Layout() {
 
   const sidebar = (
     <aside style={{
-      width: '220px',
+      width: '100%',
       background: '#111110',
       display: 'flex',
       flexDirection: 'column',
       flexShrink: 0,
       height: '100%',
+      overflowY: 'auto',
     }}>
       <div style={{ padding: '24px 16px 20px', borderBottom: '1px solid #222', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
@@ -93,7 +94,7 @@ export default function Layout() {
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: "'IBM Plex Sans', sans-serif" }}>
 
       {/* Sidebar desktop */}
-      <div className="sidebar-desktop">
+      <div className="sidebar-desktop" style={{ width: '220px', flexShrink: 0 }}>
         {sidebar}
       </div>
 
