@@ -61,7 +61,7 @@ export default function Layout() {
         >✕</button>
       </div>
 
-      <nav style={{ flex: 1, paddingTop: '16px' }}>
+      <nav style={{ paddingTop: '16px', paddingBottom: '8px' }}>
         <NavLink to="/" end style={({ isActive }) => navStyle(isActive)} onClick={cerrarMenu}>
           📊 Dashboard
         </NavLink>
@@ -73,20 +73,20 @@ export default function Layout() {
             📢 Publicidad
           </NavLink>
         )}
-      </nav>
 
-      <div style={{ padding: '16px', borderTop: '1px solid #222' }}>
-        <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#9c9a94', marginBottom: '8px' }}>
-          {usuario?.nombre}<br />
-          <span style={{ color: '#4a4845', fontSize: '9px' }}>{usuario?.rol}</span>
+        <div style={{ padding: '16px', borderTop: '1px solid #222', marginTop: '8px' }}>
+          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#9c9a94', marginBottom: '8px' }}>
+            {usuario?.nombre}<br />
+            <span style={{ color: '#4a4845', fontSize: '9px' }}>{usuario?.rol}</span>
+          </div>
+          <button
+            onClick={cerrarSesion}
+            style={{ width: '100%', background: 'transparent', border: '1px solid #333', color: '#6b6b68', padding: '7px', fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', letterSpacing: '.1em', textTransform: 'uppercase', cursor: 'pointer' }}
+          >
+            Cerrar sesión
+          </button>
         </div>
-        <button
-          onClick={cerrarSesion}
-          style={{ width: '100%', background: 'transparent', border: '1px solid #333', color: '#6b6b68', padding: '7px', fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', letterSpacing: '.1em', textTransform: 'uppercase', cursor: 'pointer' }}
-        >
-          Cerrar sesión
-        </button>
-      </div>
+      </nav>
     </aside>
   );
 
