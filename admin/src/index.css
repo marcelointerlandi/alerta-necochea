@@ -1,13 +1,74 @@
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* ── Layout responsivo ────────────────────────────────────── */
+
+/* Desktop: mostrar sidebar fijo, ocultar topbar */
+.sidebar-desktop  { display: flex; }
+.mobile-topbar    { display: none !important; }
+.sidebar-mobile   { display: none !important; }
+.sidebar-close-btn { display: none !important; }
+
+/* Móvil: ocultar sidebar desktop, mostrar topbar y drawer */
+@media (max-width: 768px) {
+  .sidebar-desktop   { display: none !important; }
+  .mobile-topbar     { display: flex !important; }
+  .sidebar-mobile    { display: block !important; }
+  .sidebar-close-btn { display: block !important; }
+}
+
+/* ── Dashboard stats grid ─────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+}
+
+/* ── Padding de páginas ───────────────────────────────────── */
+.page-padding {
+  padding: 32px;
+}
+
+@media (max-width: 768px) {
+  .page-padding {
+    padding: 16px;
+  }
+}
+
+/* ── Tablas responsivas ───────────────────────────────────── */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ocultar columnas secundarias en móvil */
+@media (max-width: 768px) {
+  .col-hide-mobile { display: none; }
+
+  /* Header de página en móvil: stack vertical */
+  .page-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px;
+  }
 }
